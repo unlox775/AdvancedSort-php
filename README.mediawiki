@@ -2,7 +2,7 @@ Example Usage:
 
 <pre>
 
-	require_once('configs/advanced_sort.inc.php');
+	require_once('lib/AdvancedSort.php');
 
 	$products = array(
 		array('product_name' => 'Double Barrel Shot Gun', 'price' => 10.15 ),
@@ -10,25 +10,38 @@ Example Usage:
 		array('product_name' => 'Grendade Launcher',      'price' => 19.95 ),
 		);
 
-	$sorted = sort_arrays($products, 'product_name');
+	$sorted_products = sort_arrays($products, 'product_name');
 
+	///  For DESC order, it must be an array
+	$sort = array( array( 'product_name', 'DESC' ) );
+	$sorted_products = sort_arrays($products, $sort);
+
+	///  For Multi-columns, in ASC order, no 2nd array around each column
+	$sort = array( 'product_name', 'price' );
+	$sorted_products = sort_arrays($products, $sort);
+
+	///  WON'T WORK : This would try to sort by column named "DESC"
+	$sort = array( 'product_name', 'DESC' );
+	$sorted_products = sort_arrays($products, $sort);
 </pre>
 
 More involved example:
 
 <pre>
 
-	require_once('configs/advanced_sort.inc.php');
+	require_once('lib/AdvancedSort.php');
 
 	$products = ProductORM::getAll();
 
 	$adv_sort = array(
 	    array('is_amazing','ASC'),        // by the object key
 		array('totalOrdersSum()','DESC'), // calling a method (may be called Many times)
-		'name' // Ascending is default
+		'name'                            // Ascending is default if just a column name is provided
 		);
 
 	// Sorted array is returned (unlike PHP core sort funcs)
-	$sorted = sort_objects($products, $adv_sort);
+	foreach ( sort_objects($products, $adv_sort) as $product ) {
+		print_r( $product->toArray() );
+	}
 
 </pre>
