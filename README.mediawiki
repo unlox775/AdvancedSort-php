@@ -6,8 +6,8 @@ Example Usage:
 
 	$products = array(
 		array('product_name' => 'Double Barrel Shot Gun', 'price' => 10.15 ),
-		array('product_name' => 'Grendade Launcher',      'price' => 19.95 ),
 		array('product_name' => 'Pea Shooter',            'price' => 38.25 ),
+		array('product_name' => 'Grendade Launcher',      'price' => 19.95 ),
 		);
 
 	$sorted = sort_arrays($products, 'product_name');
@@ -19,6 +19,8 @@ More involved example:
 <pre>
 
 	require_once('configs/advanced_sort.inc.php');
+
+	$products = ProductORM::getAll();
 
 	$adv_sort = array(
 	    array('is_amazing','ASC'),        // by the object key
